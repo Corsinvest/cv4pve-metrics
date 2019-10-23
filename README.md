@@ -4,7 +4,7 @@
 
 This solutions consists of 2 parts:
 
-* Docker with Grafana and InfluxDB
+* Docker with Grafana and InfluxDB [![Docker Pulls](https://img.shields.io/docker/pulls/corsinvest/cv4pve-metrics.svg)](https://hub.docker.com/r/corsinvest/cv4pve-metrics)
 * Software collect extra metric
 
 ```text
