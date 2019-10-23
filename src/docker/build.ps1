@@ -1,0 +1,1 @@
+docker build -t corsinvest/cv4pve-metrics:latest .
