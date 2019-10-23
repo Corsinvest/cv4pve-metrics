@@ -7,9 +7,9 @@
     <Company>Corsinvest Srl</Company>
     <Authors>Daniele Corsini</Authors>
     <Copyright>Corsinvest Srl</Copyright>
-    <Product>Corsinvest metric for Proxmox VE</Product>
-    <AssemblyTitle>Corsinvest metric for Proxmox VE</AssemblyTitle>
-    <Description>Corsinvest metric for Proxmox VE</Description>
+    <Product>Corsinvest metrics for Proxmox VE</Product>
+    <AssemblyTitle>Corsinvest metrics for Proxmox VE</AssemblyTitle>
+    <Description>Corsinvest metrics for Proxmox VE</Description>
   </PropertyGroup>
 
   <ItemGroup>
