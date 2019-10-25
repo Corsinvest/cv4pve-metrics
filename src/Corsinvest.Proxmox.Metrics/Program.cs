@@ -20,7 +20,7 @@ using InfluxDB.LineProtocol.Client;
 using InfluxDB.LineProtocol.Payload;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Corsinvest.Proxmox.Metric
+namespace Corsinvest.Proxmox.Metrics
 {
     class Program
     {
@@ -28,22 +28,40 @@ namespace Corsinvest.Proxmox.Metric
         static int Main(string[] args)
         {
             var app = ShellHelper.CreateConsoleApp(APP_NAME, "Metrics for Proxmox VE", true);
+
             var optUrlInfluxDB = app.Option("--influxdb-url",
                                             "InfluxDB url es. http://my-server:8086",
                                             CommandOptionType.SingleValue).IsRequired();
+
             var optDblInfluxDB = app.Option("--influxdb-db",
                                             "InfluxDB db es. proxmox",
                                             CommandOptionType.SingleValue).IsRequired();
 
+            var optUserInfluxDB = app.Option("--influxdb-user",
+                                             "InfluxDB db username",
+                                             CommandOptionType.SingleValue);
+
+            var optPasswordInfluxDB = app.Option("--influxdb-password",
+                                                 "InfluxDB db password",
+                                                 CommandOptionType.SingleValue);
+
             app.OnExecuteAsync(async cancellationToken =>
             {
-                var influxDBClient = new LineProtocolClient(new Uri(optUrlInfluxDB.Value()), optDblInfluxDB.Value());
+                //open connection InfluxDB
+                var influxDBClient = new LineProtocolClient(new Uri(optUrlInfluxDB.Value()),
+                                                            optDblInfluxDB.Value(),
+                                                            optUserInfluxDB.HasValue() ? optUserInfluxDB.Value() : null,
+                                                            optPasswordInfluxDB.HasValue() ? optPasswordInfluxDB.Value() : null);
+
+                //open connection proxmox
                 var pveClient = app.ClientTryLogin();
                 var payload = new LineProtocolPayload();
+
+                //loop nodes online
                 foreach (var node in pveClient.GetNodes().Where(a => a.IsOnline))
                 {
-
-                    foreach (dynamic task in pveClient.Nodes[node.Node].Tasks.NodeTasks().Response.data)
+                    //get tasks
+                    foreach (dynamic task in pveClient.Nodes[node.Node].Tasks.NodeTasks(start: 0, limit: 500).Response.data)
                     {
                         var point = new LineProtocolPoint(
                                        "task",

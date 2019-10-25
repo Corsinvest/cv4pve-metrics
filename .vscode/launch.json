@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Corsinvest.Proxmox.Metric/bin/Debug/netcoreapp3.0/cv4pve-metric.dll",
+            "program": "${workspaceFolder}/src/Corsinvest.Proxmox.Metrics/bin/Debug/netcoreapp3.0/cv4pve-metrics.dll",
             "args": [
                 "--host",
                 "10.92.90.91",
@@ -23,7 +23,7 @@
                 "--influxdb-db",
                 "proxmox"
             ],
-            "cwd": "${workspaceFolder}/src/Corsinvest.Proxmox.Metric",
+            "cwd": "${workspaceFolder}/src/Corsinvest.Proxmox.Metrics",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false

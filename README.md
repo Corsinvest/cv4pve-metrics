@@ -2,9 +2,10 @@
 
 [![License](https://img.shields.io/github/license/Corsinvest/cv4pve-metrics.svg)](LICENSE.md) [![AppVeyor branch](https://img.shields.io/appveyor/ci/franklupo/cv4pve-metrics/master.svg)](https://ci.appveyor.com/project/franklupo/cv4pve-metrics)
 
-This solutions consists of 2 parts:
+This solutions consists of more parts:
 
 * Docker with Grafana and InfluxDB [![Docker Pulls](https://img.shields.io/docker/pulls/corsinvest/cv4pve-metrics.svg)](https://hub.docker.com/r/corsinvest/cv4pve-metrics)
+* Hook Script for send metrics to InfluxDB
 * Software collect extra metric
 
 ```text

@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{42893020-3F2D-4E25-A180-5E50BE7835B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corsinvest.Proxmox.Metric", "src\Corsinvest.Proxmox.Metric\Corsinvest.Proxmox.Metric.csproj", "{503CA6E4-4894-42A7-B7B1-8F8F2653FFD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corsinvest.Proxmox.Metrics", "src\Corsinvest.Proxmox.Metrics\Corsinvest.Proxmox.Metrics.csproj", "{503CA6E4-4894-42A7-B7B1-8F8F2653FFD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

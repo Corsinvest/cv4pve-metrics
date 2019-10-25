@@ -1,7 +1,17 @@
+# This file is part of the cv4pve-metrics https://github.com/Corsinvest/cv4pve-metrics,
+#
+# This source file is available under two different licenses:
+# - GNU General Public License version 3 (GPLv3)
+# - Corsinvest Enterprise License (CEL)
+# Full copyright and license information is available in
+# LICENSE.md which is distributed with this source code.
+#
+# Copyright (C) 2016 Corsinvest Srl	GPLv3 and CEL
+
 FROM debian:stretch-slim
 LABEL maintainer="Corsini Daniele <daniele.corsini@corsinvest.it>"
 
-#ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
 
 # Default versions
@@ -11,6 +21,7 @@ ENV GRAFANA_VERSION=6.4.1
 
 # Grafana database type
 ENV GF_DATABASE_TYPE=sqlite3
+#ENV GF_PLUGIN_DIR=/grafana-plugins
 
 # Fix bad proxy issue
 COPY system/99fixbadproxy /etc/apt/apt.conf.d/99fixbadproxy
@@ -50,6 +61,7 @@ RUN rm /var/lib/apt/lists/* -vf \
     && dpkg -i grafana_${GRAFANA_VERSION}_amd64.deb && rm grafana_${GRAFANA_VERSION}_amd64.deb \
     # Install all plugins grafana
 #    && for plugin in $(curl -s https://grafana.net/api/plugins?orderBy=name | jq '.items[] | select(.internal=='false') | .slug' | tr -d '"'); do grafana-cli plugins install $plugin; done \
+#    && for plugin in $(curl -s https://grafana.net/api/plugins?orderBy=name | jq '.items[] | select(.internal=='false') | .slug' | tr -d '"'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done \
     # Cleanup
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
