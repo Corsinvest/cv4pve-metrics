@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+#
+# This file is part of the cv4pve-metrics https://github.com/Corsinvest/cv4pve-metrics,
+#
+# This source file is available under two different licenses:
+# - GNU General Public License version 3 (GPLv3)
+# - Corsinvest Enterprise License (CEL)
+# Full copyright and license information is available in
+# LICENSE.md which is distributed with this source code.
+#
+# Copyright (C) 2016 Corsinvest Srl	GPLv3 and CEL
+#
+# Utils 
+
+set -eo pipefail
+IFS=$'\n\t'
+
+if ! [ -x "$(command -v docker)" ]; then
+  echo 'Error: docker is not installed.' >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v docker-compose)" ]; then
+  echo 'Error: docker-compose is not installed.' >&2
+  exit 1
+fi
+
+main () {
+  # Enter attaches users to a shell in the desired container
+  enter () {
+    case $2 in
+      influxdb|chronograf|kapacitor|telegraf|grafana)
+        echo "Entering /bin/bash session in the $2 container..."
+        docker-compose exec $2 /bin/bash
+        ;;
+      *)
+        echo "metrics-utils enter (influxdb||chronograf||kapacitor||telegraf||grafana)"
+        ;;
+    esac
+  }
+
+  # Logs streams the logs from the container to the shell
+  logs () {
+    case $2 in
+      influxdb|chronograf|kapacitor|telegraf|grafana)
+        echo "Following the logs from the $2 container..."
+        docker-compose logs -f $2
+        ;;
+      *)
+        echo "metrics-utils logs (influxdb||chronograf||kapacitor||telegraf||grafana)"
+        ;;
+    esac
+  }
+
+  case $1 in
+    up)
+      echo "Spinning up Docker Images..."
+      echo "If this is your first time starting metrics this might take a minute..."
+      docker-compose up -d
+      ;;
+    down)
+      echo "Stopping metrics containers..."
+      docker-compose down
+      ;;
+    restart)
+      echo "Stopping all metrics processes..."
+      docker-compose down > /dev/null 2>&1
+      echo "Starting all metrics processes..."
+      docker-compose up -d > /dev/null 2>&1
+      echo "Services available!"
+      ;;
+    influxdb)
+      echo "Entering the influx cli..."
+      docker-compose exec influxdb /usr/bin/influx
+      ;;
+    enter)
+      enter $@
+      ;;
+    logs)
+      logs $@
+      ;;
+    *)
+      cat <<-EOF
+metrics-utils commands:
+  up        -> spin up the metrics
+  down      -> tear down the metrics
+  restart   -> restart the metrics
+  influxdb  -> attach to the influx cli
+
+  enter (influxdb||kapacitor||chronograf||telegraf||grafana) -> enter the specified container
+  logs  (influxdb||kapacitor||chronograf||telegraf||grafana) -> stream logs for the specified container
+EOF
+      ;;
+  esac
+}
+
+pushd `dirname $0` > /dev/null
+    main $@
+popd > /dev/null

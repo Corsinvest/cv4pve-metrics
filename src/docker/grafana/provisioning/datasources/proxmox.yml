@@ -1,7 +1,0 @@
-datasources:
-  - name: proxmox
-    type: influxdb
-    access: proxy
-    database: proxmox
-    url: http://localhost:8086
-    isDefault: true

@@ -1,0 +1,105 @@
+version: '2'
+services:
+  influxdb:
+    # Full tag list: https://hub.docker.com/r/library/influxdb/tags/
+    container_name: cv4pve-metrics-influxdb
+    image: influxdb
+    ports:
+      # The API for InfluxDB is served on port 8086
+      - '8086:8086'      
+      - '8089:8089/udp'
+    volumes:
+      # Mount for influxdb data directory
+      -  ${DATA_STORE}/influxdb/data:/var/lib/influxdb
+      # Mount for influxdb configuration
+      - ./influxdb/config/:/etc/influxdb/
+    restart: always
+
+  chronograf:
+    # Full tag list: https://hub.docker.com/r/library/chronograf/tags/
+    container_name: cv4pve-metrics-chronograf
+    image: chronograf
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_USERNAME=
+      - INFLUXDB_PASSWORD=
+      - KAPACITOR_URL=http://kapacitor:9092
+      - KAPACITOR_USERNAME=
+      - KAPACITOR_PASSWORD=
+    volumes:
+      # Mount for chronograf database
+      - ${DATA_STORE}/chronograf/data:/var/lib/chronograf/
+      # Mount for kapacitor configuration
+      - ./kapacitor/config/:/etc/kapacitor/
+    ports:
+      - "8888:8888"
+    links:
+     - kapacitor
+     - influxdb
+     - telegraf
+    restart: always
+
+  kapacitor:
+    # Full tag list: https://hub.docker.com/r/library/kapacitor/tags/
+    container_name: cv4pve-metrics-kapacitor
+    image: kapacitor
+    volumes:
+      # Mount for kapacitor data directory
+      - ${DATA_STORE}/kapacitor/data:/var/lib/kapacitor
+      # Mount for kapacitor configuration
+      - ./kapacitor/config/:/etc/kapacitor/
+    # Kapacitor requires network access to Influxdb
+    links:
+      - influxdb
+    ports:
+      # The API for Kapacitor is served on port 9092
+      - "9092:9092"
+    restart: always
+
+  telegraf:
+    # Full tag list: https://hub.docker.com/r/library/telegraf/tags/
+    container_name: cv4pve-metrics-telegraf
+    image: telegraf
+    environment:
+      HOSTNAME: "docker"
+    volumes:
+      # Mount for telegraf configuration
+      - ./telegraf/:/etc/telegraf/
+      # Mount for Docker API access
+      - /var/run/docker.sock:/var/run/docker.sock
+    # Telegraf requires network access to InfluxDB
+    links:
+      - influxdb
+    depends_on:
+      - influxdb
+    restart: always
+
+  grafana:
+    container_name: cv4pve-metrics-grafana
+    image: grafana/grafana:6.5.2
+    environment:
+      #plugins install
+      GF_INSTALL_PLUGINS: "satellogic-3d-globe-panel,ryantxu-ajax-panel,btplc-alarm-box-panel,ryantxu-annolist-panel,novalabs-annotations-panel,michaeldmoore-annunciator-panel,farski-blendstat-panel,yesoreyeram-boomtable-panel,yesoreyeram-boomtheme-panel,digiapulssi-breadcrumb-panel,neocat-cal-heatmap-panel,petrslavotinek-carpetplot-panel,grafana-clock-panel,briangann-gauge-panel,briangann-datatable-panel,jdbranham-diagram-panel,natel-discrete-panel,larona-epict-panel,agenty-flowcharting-panel,citilogics-geoloop-panel,savantly-heatmap-panel,mtanda-heatmap-epoch-panel,mtanda-histogram-panel,pierosavi-imageit-panel,natel-influx-admin-panel,michaeldmoore-multistat-panel,digiapulssi-organisations-panel,zuburqan-parity-report-panel,btplc-peak-report-panel,bessler-pictureit-panel,grafana-piechart-panel,natel-plotly-panel,grafana-polystat-panel,corpglory-progresslist-panel,snuids-radar-panel,scadavis-synoptic-panel,mxswat-separator-panel,blackmirror1-singlestat-math-panel,blackmirror1-statusbygroup-panel,btplc-status-dot-panel,vonage-status-panel,flant-statusmap-panel,marcuscalidus-svg-panel,gretamosa-topology-panel,alexandra-trackmap-panel,snuids-trafficlights-panel,smartmakers-trafficlight-panel,btplc-trend-box-panel,fatcloud-windrose-panel,grafana-worldmap-panel"
+    ports:
+      - '3000:3000'
+    user: "472"
+    volumes:
+      - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini
+      - ${DATA_STORE}/grafana/data:/var/lib/grafana
+
+      #index
+     #- ./grafana/web/views/index.html:/usr/share/grafana/public/views/index.html
+
+      #icons
+      - ./grafana/web/images/grafana_icon.svg:/usr/share/grafana/public/img/grafana_icon.svg
+      - ./grafana/web/images/grafana_typelogo.svg:/usr/share/grafana/public/img/grafana_typelogo.svg
+      - ./grafana/web/images/heatmap_bg_test.svg:/usr/share/grafana/public/img/heatmap_bg_test.svg
+      - ./grafana/web/images/fav32.png:/usr/share/grafana/public/img/fav32.png
+      - ./grafana/web/images/grafana_mask_icon.svg:/usr/share/grafana/public/img/grafana_mask_icon.svg
+      - ./grafana/web/images/apple-touch-icon.png:/usr/share/grafana/public/img/apple-touch-icon.png
+
+      #email templates
+      - ./grafana/emails:/usr/share/grafana/public/emails
+    depends_on:
+      - influxdb
+    restart: always

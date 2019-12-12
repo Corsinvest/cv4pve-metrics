@@ -1,62 +1,72 @@
 # cv4pve-metrics
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/corsinvest/cv4pve-metrics.svg)](https://hub.docker.com/r/corsinvest/cv4pve-metrics) [![license](https://img.shields.io/github/license/corsinvest/cv4pve-metrics.svg)](https://www.github.com/corsinvest/cv4pve-metrics/LICENSE.md)
-
-![Grafana][grafana-version] ![Influx][influx-version] ![Chronograf][chronograf-version]
-
-[grafana-version]: https://img.shields.io/badge/Grafana-6.4.1-brightgreen
-[influx-version]: https://img.shields.io/badge/Influx-1.7.7-brightgreen
-[chronograf-version]: https://img.shields.io/badge/Chronograf-1.7.12-brightgreen
-
-[Github cv4pve-metrics Project](https://www.github.com/corsinvest/cv4pve-metrics)
+[![license](https://img.shields.io/github/license/corsinvest/cv4pve-metrics.svg)](https://github.com/Corsinvest/cv4pve-metrics/blob/master/LICENSE.md)
 
 ## Copyright and License
 
 Copyright: Corsinvest Srl
-For licensing details please visit [LICENSE.md](https://www.github.com/corsinvest/cv4pve-metrics/LICENSE.md)
+For licensing details please visit [LICENSE.md](https://github.com/Corsinvest/cv4pve-metrics/blob/master/LICENSE.md)
 
 ## Commercial Support
 
-This software is part of a suite of tools called cv4pve-tools. If you want commercial support, visit the [site](https://www.corsinvest.it/cv4pve-tools)
+This software is part of a suite of tools called cv4pve-tools. If you want commercial support, visit the [site](https://www.cv4pve-tools.com)
 
 ## Introduction
 
-Docker image with Grafana and InfluxDB for metrics Proxmox VE.
+Docker compose with InfluxDb, Telegraf, Kapacitor, Chronograf, Grafana for metrics Proxmox VE.
 
 ## Quick Start
+
+Download docker folder.
+
+Change file ".env" for your configuration.
+
+Change InfluxDB configuration [file](./influxdb/config/influxdb.conf) set database where Proxmox VE store metrics.
+
+```ini
+[[udp]]
+  database = "db_proxmox"
+```
+
+Remember the directory **${DATA_STORE}/grafana** must have the permission user and group 472:472
+
+```sh
+# Replace <DATA_STORE> with value
+sudo chown 472:472 -R <DATA_STORE>/grafana
+```
 
 To start the container with persistence you can use the following:
 
 ```sh
-docker run -d \
-  --name cv4pve-metrics \
-  -p 3003:3003 \
-  -p 3004:8888 \
-  -p 8086:8086 \
-  -p 8089:8089/udp \
-  -v /path/for/influxdb:/var/lib/influxdb \
-  -v /path/for/grafana:/var/lib/grafana \
-  corsinvest/cv4pve-metrics:latest
+docker-compose up -d
 ```
 
 To stop the container launch:
 
 ```sh
-docker stop cv4pve-metrics
+docker-compose down
 ```
 
-To start the container again launch:
+metrics-util simplify management docker.
 
-```sh
-docker start cv4pve-metrics
+```txt
+metrics-util commands:
+  up       -> spin up the sandbox environment
+  down     -> tear down the sandbox environment
+  restart  -> restart the sandbox
+  influxdb -> attach to the influx cli
+
+  enter (influxdb||kapacitor||chronograf||telegraf||grafana) -> enter the specified container
+  logs  (influxdb||kapacitor||chronograf||telegraf||grafana) -> stream logs for the specified container
 ```
 
 ## Mapped Ports
 
 ```text
 Host  Container   Service
-3003  3003        grafana
-3004  8888        chronograf
+3000  3000        grafana
+8888  8888        chronograf
+9092  9092        kapacitor
 8086  8086        influxdb
 8089  8089/udp    influxdb
 ```
@@ -67,31 +77,29 @@ Host  Container   Service
 docker exec -it <CONTAINER_ID> bash
 ```
 
+or
+
+```sh
+metrics-util enter (influxdb||kapacitor||chronograf||telegraf||grafana)
+```
+
 ## Grafana
 
-Open <http://localhost:3003>
+Open http://localhost:3000
 
-```text
-Username: root
-Password: root
+```sh
+# Default login
+Username: admin
+Password: admin
 ```
 
-## InfluxDB
+### Web Interface chronograf
 
-### Web Interface (Chronograf)
-
-Open <http://localhost:3004>
-
-```text
-Username: root
-Password: root
-Port: 8086
-```
+Open http://localhost:8888
 
 ### InfluxDB Shell (CLI)
 
-1. Establish a ssh connection with the container
-2. Launch `influx` to open InfluxDB Shell (CLI)
+metrics-utils influxdb
 
 ## Proxmox VE configuration metrics
 
@@ -116,3 +124,7 @@ Restart service pvestatd
 ```sh
 pvestatd restart
 ```
+
+## [Telegraf inside node Proxmox VE](../telegraf-pve-node/README.md)
+
+## [Scripts hook](../scripts-hook/README.md)
