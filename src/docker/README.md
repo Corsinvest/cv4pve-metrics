@@ -32,7 +32,8 @@ Remember the directory **${DATA_STORE}/grafana** must have the permission user a
 
 ```sh
 # Replace <DATA_STORE> with value
-sudo chown 472:472 -R <DATA_STORE>/grafana
+sudo mkdir -p <DATA_STORE>/grafana/data/
+sudo chown 472:472 -R <DATA_STORE>/grafana/data/
 ```
 
 To start the container with persistence you can use the following:
@@ -88,7 +89,7 @@ metrics-util enter (influxdb||kapacitor||chronograf||telegraf||grafana)
 Open http://localhost:3000
 
 ```sh
-# Default login
+# first login
 Username: admin
 Password: admin
 ```

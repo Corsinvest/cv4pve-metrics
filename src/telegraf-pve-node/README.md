@@ -29,7 +29,7 @@ Change sections:
 ```ini
 [[outputs.influxdb]]
     urls = ["http://<SERVER InfluxDb>:8086"]  #IP/Hostname InfluxDB server
-    database = "telegraf_proxmox"             #not necessary
+    database = "db_telegraf_proxmox"          #not necessary
 ```
 
 ### Install and configure IPMI tools
