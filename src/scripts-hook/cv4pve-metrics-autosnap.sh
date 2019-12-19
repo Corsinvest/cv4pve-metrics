@@ -35,7 +35,7 @@ if [[ $CV4PVE_AUTOSNAP_PHASE == "snap-create-abort" ]] || [[ $CV4PVE_AUTOSNAP_PH
     url="http://$INFLUXDB_HOST:$INFLUXDB_PORT/write?db=$INFLUXDB_NAME"
 
     #data metrics
-    data="cv4pve-autosnap,vmid=$CV4PVE_AUTOSNAP_VMID,type=$CV4PVE_AUTOSNAP_VMTYPE,label=$CV4PVE_AUTOSNAP_LABEL,success=$success success=$success,duration=$duration"
+    data="cv4pve-autosnap,vmid=$CV4PVE_AUTOSNAP_VMID,type=$CV4PVE_AUTOSNAP_VMTYPE,label=$CV4PVE_AUTOSNAP_LABEL,vmname=$CV4PVE_AUTOSNAP_VMNAME,success=$success success=$success,duration=$duration"
 
     if [[ $INFLUXDB_USER == "" ]]; then
         #no login
