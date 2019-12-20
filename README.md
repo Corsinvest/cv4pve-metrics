@@ -2,14 +2,18 @@
 
 [![License](https://img.shields.io/github/license/Corsinvest/cv4pve-metrics.svg)](LICENSE.md)
 
-This solutions consists of more parts:
+This solutions consists of more parts (subdirectory src):
 
 * **docker** Docker compose with InfluxDb, Telegraf, Kapacitor, Cronograf, Grafana
 * **scripts-hook** Hook Script for send metrics to InfluxDB use protocol http (vzdump, cv4pve-autosnap)
 * **telegraf-pve-node** Documentation for setting telegraf inside node Proxmox VE
-* Dashboard Grafana:
-  * [Proxmox VE Home](https://grafana.com/grafana/dashboards/11416)
-  * [Proxmox VE Alert](https://grafana.com/grafana/dashboards/11418)
+
+Dashboards for Grafana:
+
+* [Proxmox VE Home](https://grafana.com/grafana/dashboards/11416)
+* [Proxmox VE Alert](https://grafana.com/grafana/dashboards/11418)
+
+For more dashboards or metrics in cloud visit https://www.cv4pve-tools.com and see plans support.
 
 ```text
     ______                _                      __
