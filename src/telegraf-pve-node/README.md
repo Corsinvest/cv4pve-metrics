@@ -32,6 +32,8 @@ Change sections:
     database = "db_telegraf_proxmox"          #not necessary
 ```
 
+If you want enable other section for Proxmox VE Cluster see example section with [[inputs.ping]] using tags
+
 ### Install and configure IPMI tools
 
 Install
