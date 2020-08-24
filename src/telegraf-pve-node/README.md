@@ -18,6 +18,10 @@ Copy file configuration in specific folder.
 
 Connect to node Proxmox VE
 
+### Fast install
+
+Download [install.sh](./install.sh) and execute on node. Change InfluxDb host.
+
 ### Telegraf
 
 Download and install [telegraf](https://portal.influxdata.com/downloads/)
