@@ -12,7 +12,7 @@
 
 $INFLUXDB_HOST=""
 $INFLUXDB_PORT="8086"
-$INFLUXDB_NAME="proxmox"
+$INFLUXDB_NAME="db_proxmox"
 $INFLUXDB_USER=""
 $INFLUXDB_PASSWORD=""
 
@@ -26,11 +26,11 @@ $fileDuration=$env:TEMP + "autosnap$CV4PVE_AUTOSNAP_VMID$CV4PVE_AUTOSNAP_LABEL"
 if ( $CV4PVE_AUTOSNAP_PHASE -eq "snap-create-pre" ){
     New-Item -ItemType "file" -Path $fileDuration -Force | Out-Null
 }
- 
+
 if ( $CV4PVE_AUTOSNAP_PHASE -eq "snap-create-abort" -or $CV4PVE_AUTOSNAP_PHASE -eq "snap-create-post" ) {
     $success=0
-    
-    if ($CV4PVE_AUTOSNAP_PHASE -eq "snap-create-post") 
+
+    if ($CV4PVE_AUTOSNAP_PHASE -eq "snap-create-post")
     {
         $success=1
     }

@@ -14,16 +14,16 @@
 #
 # edit /etc/vzdump.conf and change tag "script:" with this script
 #
-# see https://pve.proxmox.com/pve-docs/vzdump.1.html 
+# see https://pve.proxmox.com/pve-docs/vzdump.1.html
 
 INFLUXDB_HOST=""
 INFLUXDB_PORT="8086"
-INFLUXDB_NAME="proxmox"
+INFLUXDB_NAME="db_proxmox"
 INFLUXDB_USER=""
 INFLUXDB_PASSWORD=""
 
-phase="$1" 
-mode="$2" 
+phase="$1"
+mode="$2"
 vmid="$3"
 
 if [ "$phase" == "log-end" ]; then
@@ -47,7 +47,7 @@ if [ "$phase" == "log-end" ]; then
 
     #data metrics
     data="vzdump,host=$HOSTNAME,type=$VMTYPE,storeid=$STOREID,vmid=$vmid vmid=$vmid,success=$success,duration=$duration,speed=$speed,size=$size"
-    
+
     if [[ $INFLUXDB_USER == "" ]]; then
         #no login
         curl -s -i -XPOST "$url" --data-binary "$data"

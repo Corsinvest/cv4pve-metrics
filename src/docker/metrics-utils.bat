@@ -1,12 +1,12 @@
 @ECHO OFF
 REM  This file is part of the cv4pve-metrics https://github.com/Corsinvest/cv4pve-metrics,
-REM 
+REM
 REM  This source file is available under two different licenses:
 REM  - GNU General Public License version 3 (GPLv3)
 REM  - Corsinvest Enterprise License (CEL)
 REM  Full copyright and license information is available in
 REM  LICENSE.md which is distributed with this source code.
-REM 
+REM
 REM  Copyright (C) 2016 Corsinvest Srl	GPLv3 and CEL
 REM
 TITLE Metrics Util

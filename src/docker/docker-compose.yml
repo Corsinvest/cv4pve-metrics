@@ -6,7 +6,7 @@ services:
     image: influxdb
     ports:
       # The API for InfluxDB is served on port 8086
-      - '8086:8086'      
+      - '8086:8086'
       - '8089:8089/udp'
     volumes:
       # Mount for influxdb data directory

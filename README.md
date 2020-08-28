@@ -12,6 +12,15 @@ Dashboards for Grafana:
 
 * [Proxmox VE Home](https://grafana.com/grafana/dashboards/11416)
 * [Proxmox VE Alert](https://grafana.com/grafana/dashboards/11418)
+* [Proxmox VE Backup VZDump](https://grafana.com/grafana/dashboards/12907)
+* [Proxmox VE KVM](https://grafana.com/grafana/dashboards/12908)
+* [Proxmox VE Network](https://grafana.com/grafana/dashboards/12909)
+* [Proxmox VE Node](https://grafana.com/grafana/dashboards/12910)
+* [Proxmox VE Node Detailed](https://grafana.com/grafana/dashboards/12911)
+* [Proxmox VE Node IPMI](https://grafana.com/grafana/dashboards/12912)
+* [Proxmox VE Sensors](https://grafana.com/grafana/dashboards/12913)
+* [Proxmox VE Storage](https://grafana.com/grafana/dashboards/12914)
+* [Proxmox VE Syslog](https://grafana.com/grafana/dashboards/12915)
 
 For more dashboards or metrics in cloud visit https://www.cv4pve-tools.com and see plans support.
 

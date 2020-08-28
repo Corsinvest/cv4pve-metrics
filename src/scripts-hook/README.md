@@ -22,7 +22,7 @@ Copy script cv4pve-metrics-vzdump.sh and edit variable in file.
 ```sh
 INFLUXDB_HOST=""
 INFLUXDB_PORT="8086"
-INFLUXDB_NAME="proxmox"
+INFLUXDB_NAME="db_proxmox"
 INFLUXDB_USER=""
 INFLUXDB_PASSWORD=""
 ```
@@ -46,7 +46,7 @@ Edit cv4pve-metrics-autosnap set variable.
 ```sh
 INFLUXDB_HOST=""
 INFLUXDB_PORT="8086"
-INFLUXDB_NAME="proxmox"
+INFLUXDB_NAME="db_proxmox"
 INFLUXDB_USER=""
 INFLUXDB_PASSWORD=""
 ```
