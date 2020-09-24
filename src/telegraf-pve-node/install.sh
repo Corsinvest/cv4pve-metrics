@@ -15,13 +15,13 @@
 # install telegraf
 wget https://dl.influxdata.com/telegraf/releases/telegraf_1.15.2-1_amd64.deb
 dpkg -i telegraf_1.15.2-1_amd64.deb
+rm telegraf_1.15.2-1_amd64.deb
 
-wget https://raw.githubusercontent.com/Corsinvest/cv4pve-metrics/master/src/telegraf-pve-node/etc/telegraf/telegraf.conf /etc/telegraf/telegraf.conf
-
+wget -O /etc/telegraf/telegraf.conf https://raw.githubusercontent.com/Corsinvest/cv4pve-metrics/master/src/telegraf-pve-node/etc/telegraf/telegraf.conf
 
 # Install and configure IPMI tools
 apt-get install ipmitool
-wget https://raw.githubusercontent.com/Corsinvest/cv4pve-metrics/master/src/telegraf-pve-node/etc/udev/rules.d/52-telegraf-ipmi.rules /etc/udev/rules.d/52-telegraf-ipmi.rules
+wget -O /etc/udev/rules.d/52-telegraf-ipmi.rules https://raw.githubusercontent.com/Corsinvest/cv4pve-metrics/master/src/telegraf-pve-node/etc/udev/rules.d/52-telegraf-ipmi.rules
 
 # Reboot is required for apply change. If you want apply immediately change use this command:
 chown :telegraf /dev/ipmi*
@@ -30,16 +30,15 @@ chmod g+rw /dev/ipmi*
 # hddtemp
 apt-get install hddtemp
 
-wget https://raw.githubusercontent.com/Corsinvest/cv4pve-metrics/master/src/telegraf-pve-node/etc/default/hddtemp /etc/default/hddtemp
+wget -O /etc/default/hddtemp https://raw.githubusercontent.com/Corsinvest/cv4pve-metrics/master/src/telegraf-pve-node/etc/default/hddtemp
 
 service hddtemp restart
 
 # lm-sensors
 apt-get install lm-sensors
 
-
 # Syslog integration
-wget https://raw.githubusercontent.com/Corsinvest/cv4pve-metrics/master/src/telegraf-pve-node/etc/rsyslog.d/telegraf.conf /etc/rsyslog.d/telegraf.conf
+wget -O /etc/rsyslog.d/telegraf.conf https://raw.githubusercontent.com/Corsinvest/cv4pve-metrics/master/src/telegraf-pve-node/etc/rsyslog.d/telegraf.conf
 
 service rsyslog restart
 
