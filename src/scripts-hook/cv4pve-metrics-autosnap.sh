@@ -18,24 +18,12 @@ INFLUXDB_NAME="db_proxmox"
 INFLUXDB_USER=""
 INFLUXDB_PASSWORD=""
 
-file_duration="/tmp/autosnap$CV4PVE_AUTOSNAP_VMID$CV4PVE_AUTOSNAP_LABEL"
-
-if [[ $CV4PVE_AUTOSNAP_PHASE == "snap-create-pre" ]]; then
-    echo `date +%s` > $file_duration
-fi
-
 if [[ $CV4PVE_AUTOSNAP_PHASE == "snap-create-abort" ]] || [[ $CV4PVE_AUTOSNAP_PHASE == "snap-create-post" ]]; then
-    success=0
-    [[ $CV4PVE_AUTOSNAP_PHASE == "snap-create-post" ]] && success=1
-
-    duration=0; duration=$((`date +%s`-`sed '1q;d' $file_duration`))
-    rm $file_duration
-
     #url post
     url="http://$INFLUXDB_HOST:$INFLUXDB_PORT/write?db=$INFLUXDB_NAME"
 
     #data metrics
-    data="cv4pve-autosnap,vmid=$CV4PVE_AUTOSNAP_VMID,type=$CV4PVE_AUTOSNAP_VMTYPE,label=$CV4PVE_AUTOSNAP_LABEL,vmname=$CV4PVE_AUTOSNAP_VMNAME,success=$success success=$success,duration=$duration"
+    data="cv4pve-autosnap,vmid=$CV4PVE_AUTOSNAP_VMID,type=$CV4PVE_AUTOSNAP_VMTYPE,label=$CV4PVE_AUTOSNAP_LABEL,vmname=$CV4PVE_AUTOSNAP_VMNAME,success=$CV4PVE_AUTOSNAP_STATE success=$CV4PVE_AUTOSNAP_STATE,duration=$CV4PVE_AUTOSNAP_DURATION"
 
     if [[ $INFLUXDB_USER == "" ]]; then
         #no login

@@ -16,32 +16,12 @@ $INFLUXDB_NAME="db_proxmox"
 $INFLUXDB_USER=""
 $INFLUXDB_PASSWORD=""
 
-$CV4PVE_AUTOSNAP_PHASE=$Env:CV4PVE_AUTOSNAP_PHASE
-$CV4PVE_AUTOSNAP_VMID=$Env:CV4PVE_AUTOSNAP_VMID
-$CV4PVE_AUTOSNAP_VMTYPE=$Env:CV4PVE_AUTOSNAP_VMTYPE
-$CV4PVE_AUTOSNAP_LABEL=$Env:CV4PVE_AUTOSNAP_LABEL
-
-$fileDuration=$env:TEMP + "autosnap$CV4PVE_AUTOSNAP_VMID$CV4PVE_AUTOSNAP_LABEL"
-
-if ( $CV4PVE_AUTOSNAP_PHASE -eq "snap-create-pre" ){
-    New-Item -ItemType "file" -Path $fileDuration -Force | Out-Null
-}
-
-if ( $CV4PVE_AUTOSNAP_PHASE -eq "snap-create-abort" -or $CV4PVE_AUTOSNAP_PHASE -eq "snap-create-post" ) {
-    $success=0
-
-    if ($CV4PVE_AUTOSNAP_PHASE -eq "snap-create-post")
-    {
-        $success=1
-    }
-
-    $duration = [int](New-TimeSpan -Start (Get-ItemProperty -Path $fileDuration -Name LastWriteTime).LastWriteTime -End (Get-Date)).TotalSeconds
-
+if ( $Env:CV4PVE_AUTOSNAP_PHASE -eq "snap-create-abort" -or $Env:CV4PVE_AUTOSNAP_PHASE -eq "snap-create-post" ) {
     #url post
     $url="http://$($INFLUXDB_HOST):$INFLUXDB_PORT/write?db=$INFLUXDB_NAME"
 
     #data metrics
-    $data="cv4pve-autosnap,vmid=$CV4PVE_AUTOSNAP_VMID,type=$CV4PVE_AUTOSNAP_VMTYPE,label=$CV4PVE_AUTOSNAP_LABEL,vmname=$CV4PVE_AUTOSNAP_VMNAME,success=$success success=$success,duration=$duration"
+    $data="cv4pve-autosnap,vmid=$Env:CV4PVE_AUTOSNAP_VMID,type=$Env:CV4PVE_AUTOSNAP_VMTYPE,label=$Env:CV4PVE_AUTOSNAP_LABEL,vmname=$CV4PVE_AUTOSNAP_VMNAME,success=$Env:CV4PVE_AUTOSNAP_STATE success=$Env:CV4PVE_AUTOSNAP_STATE,duration=$Env:CV4PVE_AUTOSNAP_DURATION"
 
     if ( $INFLUXDB_USER -eq "" ) {
         #no login
