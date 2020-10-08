@@ -12,6 +12,7 @@ Dashboards for Grafana:
 
 * [Proxmox VE Home](https://grafana.com/grafana/dashboards/11416)
 * [Proxmox VE Alert](https://grafana.com/grafana/dashboards/11418)
+* [Proxmox VE cv4pve-autosnap](https://grafana.com/grafana/dashboards/13099)
 * [Proxmox VE Backup VZDump](https://grafana.com/grafana/dashboards/12907)
 * [Proxmox VE KVM](https://grafana.com/grafana/dashboards/12908)
 * [Proxmox VE Network](https://grafana.com/grafana/dashboards/12909)
