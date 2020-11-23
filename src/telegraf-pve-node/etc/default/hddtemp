@@ -18,7 +18,7 @@ DISKS_NOPROBE=""
 # IP address of the interface on which you want hddtemp to be bound
 # on. If none specified, goes to 127.0.0.1. Use 0.0.0.0 to bind hddtemp
 # on all interfaces.
-INTERFACE="127.0.0.1"
+INTERFACE="0.0.0.0"
 
 # Port number on which you want hddtemp to listen on. If none specified,
 # the port 7634 is used.
