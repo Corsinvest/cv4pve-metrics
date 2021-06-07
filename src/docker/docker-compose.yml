@@ -3,7 +3,7 @@ services:
   influxdb:
     # Full tag list: https://hub.docker.com/r/library/influxdb/tags/
     container_name: cv4pve-metrics-influxdb
-    image: influxdb
+    image: influxdb:1.8
     ports:
       # The API for InfluxDB is served on port 8086
       - '8086:8086'
