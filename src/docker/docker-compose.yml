@@ -8,6 +8,11 @@ services:
       # The API for InfluxDB is served on port 8086
       - '8086:8086'
       - '8089:8089/udp'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
     volumes:
       # Mount for influxdb data directory
       -  ${DATA_STORE}/influxdb/data:/var/lib/influxdb
