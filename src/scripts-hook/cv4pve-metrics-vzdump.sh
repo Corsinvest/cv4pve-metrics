@@ -35,7 +35,7 @@ if [ "$phase" == "log-end" ]; then
     if [ `cat ${LOGFILE} | grep ERROR | wc -l` -eq 0 ]; then
          size=`stat -c%s $TARFILE`
          success=1
-         speed=$((`cat ${LOGFILE} | grep -o -P "(?<=seconds \().*(?= MB/s)"`))
+         speed=$((cat ${LOGFILE} | grep -o -P "(?<=seconds \().*(?= MiB/s)"| awk '{printf("%d\n",$1 + 0.5)}'))
          if [ ! "$speed" -gt 0 ]; then
              speed=$(cat ${LOGFILE} | grep -o -P "(?<=.iB, ).*(?=.iB\/s)")
          fi
